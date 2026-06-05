@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Events, Partials, Message } from 'discord.js';
 import dotenv from 'dotenv';
+import http from 'http';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -86,3 +87,12 @@ if (!token) {
 }
 
 client.login(token);
+
+const port = Number(process.env.PORT || 3000);
+
+http.createServer((_req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Discord bot is running\n');
+}).listen(port, () => {
+  console.log(`Health server listening on port ${port}`);
+});
