@@ -80,6 +80,15 @@ client.on(Events.MessageCreate, async (message: Message) => {
 });
 
 const token = process.env.DISCORD_BOT_TOKEN;
+const port = Number(process.env.PORT || 3000);
+const host = process.env.HOST || '0.0.0.0';
+
+http.createServer((_req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Discord bot is running\n');
+}).listen(port, host, () => {
+  console.log(`Health server listening on ${host}:${port}`);
+});
 
 if (!token) {
   console.error('❌ Error: DISCORD_BOT_TOKEN is not defined in .env file');
@@ -87,12 +96,3 @@ if (!token) {
 }
 
 client.login(token);
-
-const port = Number(process.env.PORT || 3000);
-
-http.createServer((_req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Discord bot is running\n');
-}).listen(port, () => {
-  console.log(`Health server listening on port ${port}`);
-});
